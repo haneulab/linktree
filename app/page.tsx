@@ -1,8 +1,30 @@
 import Image from "next/image";
-import data from "../data.json";
 import { SiGithub, SiFacebook, SiLinkedin } from "react-icons/si";
+import { get } from "@vercel/edge-config";
 
-export default function Home() {
+interface Link {
+  href: string;
+  title: string;
+  image?: string;
+}
+
+interface Social {
+  href: string;
+  title: string;
+}
+
+interface Data {
+  name: string;
+  avatar: string;
+  links: Link[];
+  socials: Social[];
+}
+
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const data = (await get("linktree")) as Data;
+
   return (
     <div className="flex flex-col items-center justify-center max-w-lg mx-auto h-screen">
       <Image
